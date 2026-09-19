@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документация Vibe Bots Python SDK — Официальное руководство</title>
+    <meta name="description"
+        content="Полная официальная документация по созданию ботов для Vibe Messenger с инлайн-кнопками, кастомными цветами, callback query и защитой от флуда.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Prism.js Syntax Highlighting Theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    <!-- Base & Docs Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="docs.css">
+</head>
+
+<body>
+    <!-- Ambient Glow Background -->
+    <div class="glow-sphere sphere-1"></div>
+    <div class="glow-sphere sphere-2"></div>
+
+    <!-- Documentation Header -->
+    <header class="docs-header-wrapper">
+        <div class="docs-header-container">
+            <div class="docs-brand">
+                <a href="index.html" class="nav-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                    <span class="logo-text">VIBE</span>
+                </a>
+                <span class="docs-badge-tag">BOTS SDK v1.0</span>
+            </div>
+
+            <div class="docs-search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="docsSearchInput" placeholder="Поиск по документации... (Search docs)"
+                    onkeyup="filterDocs()">
+            </div>
+
+            <div class="nav-actions">
+                <!-- Return to Landing -->
+                <a href="index.html" class="btn btn-outline btn-sm" title="На главную">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span data-i18n="docs_back_home">На главную</span>
+                </a>
+
+                <!-- Language Switcher -->
+                <div class="lang-switch" id="langSwitchBtn" title="Change language">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="currentLangLabel">RU</span>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="themeToggleBtn" title="Toggle Theme">
+                    <i class="fa-solid fa-moon theme-icon-dark"></i>
+                    <i class="fa-solid fa-sun theme-icon-light"></i>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-toggle" id="docsMobileMenuBtn">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="docs-main-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="docs-sidebar-portal" id="docsSidebar">
+            <div class="sidebar-section">
+                <span class="sidebar-section-title"><i class="fa-solid fa-rocket"></i> <span
+                        data-i18n="doc_nav_quickstart">Быстрый старт</span></span>
+                <ul class="sidebar-nav-list">
+                    <li><a href="#quickstart" class="sidebar-link active"><i class="fa-solid fa-play"></i> <span
+                                data-i18n="doc_link_first_bot">Первый бот</span></a></li>
+                    <li><a href="#polling" class="sidebar-link"><i class="fa-solid fa-arrows-rotate"></i> <span
+                                data-i18n="doc_link_polling">Polling & Обновления</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-section-title"><i class="fa-solid fa-message"></i> <span
+                        data-i18n="doc_nav_messages">Сообщения</span></span>
+                <ul class="sidebar-nav-list">
+                    <li><a href="#messages" class="sidebar-link"><i class="fa-solid fa-filter"></i> <span
+                                data-i18n="doc_link_msg_handlers">Хэндлеры сообщений</span></a></li>
+                    <li><a href="#commands" class="sidebar-link"><i class="fa-solid fa-terminal"></i> <span
+                                data-i18n="doc_link_commands">Команды и фильтры</span></a></li>
+                    <li><a href="#send-message" class="sidebar-link"><i class="fa-solid fa-paper-plane"></i> <span
+                                data-i18n="doc_link_sending">Отправка сообщений</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-section-title"><i class="fa-solid fa-keyboard"></i> <span
+                        data-i18n="doc_nav_keyboards">Инлайн-кнопки & Цвета</span></span>
+                <ul class="sidebar-nav-list">
+                    <li><a href="#keyboards" class="sidebar-link"><i class="fa-solid fa-table-cells"></i> <span
+                                data-i18n="doc_link_grid">Сетка 5x10 кнопок</span></a></li>
+                    <li><a href="#custom-colors" class="sidebar-link"><i class="fa-solid fa-palette"></i> <span
+                                data-i18n="doc_link_colors">Кастомные HEX цвета</span></a></li>
+                    <li><a href="#url-buttons" class="sidebar-link"><i
+                                class="fa-solid fa-arrow-up-right-from-square"></i> <span
+                                data-i18n="doc_link_url_btns">URL-кнопки</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-section-title"><i class="fa-solid fa-hand-pointer"></i> <span
+                        data-i18n="doc_nav_callbacks">Обработка нажатий</span></span>
+                <ul class="sidebar-nav-list">
+                    <li><a href="#callbacks" class="sidebar-link"><i class="fa-solid fa-bolt"></i> <span
+                                data-i18n="doc_link_cb_handlers">Callback-хэндлеры</span></a></li>
+                    <li><a href="#alerts-toasts" class="sidebar-link"><i class="fa-solid fa-bell"></i> <span
+                                data-i18n="doc_link_alerts">Алерты vs Тосты</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-section-title"><i class="fa-solid fa-shield-halved"></i> <span
+                        data-i18n="doc_nav_security">Безопасность</span></span>
+                <ul class="sidebar-nav-list">
+                    <li><a href="#ratelimiting" class="sidebar-link"><i class="fa-solid fa-gauge-high"></i> <span
+                                data-i18n="doc_link_rate_limits">Rate Limit (3 клика/сек)</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-section-title"><i class="fa-solid fa-book-bookmark"></i> <span
+                        data-i18n="doc_nav_api">Справочник API</span></span>
+                <ul class="sidebar-nav-list">
+                    <li><a href="#api-bot" class="sidebar-link"><i class="fa-solid fa-cube"></i> <span>Класс
+                                Bot</span></a></li>
+                    <li><a href="#api-markup" class="sidebar-link"><i class="fa-solid fa-cubes"></i>
+                            <span>InlineKeyboardMarkup</span></a></li>
+                    <li><a href="#api-button" class="sidebar-link"><i class="fa-solid fa-square"></i>
+                            <span>InlineKeyboardButton</span></a></li>
+                    <li><a href="#api-callback" class="sidebar-link"><i class="fa-solid fa-circle-dot"></i>
+                            <span>CallbackQuery</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> <span
+                        data-i18n="doc_nav_new">Новые методы</span></span>
+                <ul class="sidebar-nav-list">
+                    <li><a href="#new-methods" class="sidebar-link"><i class="fa-solid fa-star"></i> <span
+                                data-i18n="doc_link_new_overview">Обзор новинок</span></a></li>
+                    <li><a href="#msg-object" class="sidebar-link"><i class="fa-solid fa-message"></i> <span>Объект
+                                Message</span></a></li>
+                    <li><a href="#commands-routing" class="sidebar-link"><i class="fa-solid fa-terminal"></i> <span
+                                data-i18n="doc_link_new_commands">Роутинг команд</span></a></li>
+                    <li><a href="#edit-delete" class="sidebar-link"><i class="fa-solid fa-pen-to-square"></i> <span
+                                data-i18n="doc_link_new_edit">Редактирование/удаление</span></a></li>
+                    <li><a href="#reactions-pins" class="sidebar-link"><i class="fa-solid fa-thumbs-up"></i> <span
+                                data-i18n="doc_link_new_reactions">Реакции и закрепления</span></a></li>
+                    <li><a href="#forward-history" class="sidebar-link"><i class="fa-solid fa-share"></i> <span
+                                data-i18n="doc_link_new_forward">Пересылка и история</span></a></li>
+                    <li><a href="#single-instance" class="sidebar-link"><i class="fa-solid fa-lock"></i> <span
+                                data-i18n="doc_link_new_single">Один токен = один бот</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-section-title"><i class="fa-solid fa-code"></i> <span
+                        data-i18n="doc_nav_examples">Готовые примеры</span></span>
+                <ul class="sidebar-nav-list">
+                    <li><a href="#example-store" class="sidebar-link"><i class="fa-solid fa-cart-shopping"></i> <span
+                                data-i18n="doc_link_shop_bot">Бот-Магазин</span></a></li>
+                    <li><a href="#example-quiz" class="sidebar-link"><i class="fa-solid fa-circle-question"></i> <span
+                                data-i18n="doc_link_quiz_bot">Бот-Викторина</span></a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Documentation Content Body -->
+        <main class="docs-body-portal">
+            <div class="docs-breadcrumbs">
+                <a href="index.html">Vibe</a>
+                <span>/</span>
+                <span data-i18n="docs_breadcrumb_title">Документация Python SDK</span>
+            </div>
+
+            <!-- SECTION 1: Quickstart -->
+            <section class="doc-section-block" id="quickstart">
+                <h2><i class="fa-solid fa-rocket gradient-text"></i> <span data-i18n="doc_sec1_title">1. Быстрый старт:
+                        Создание первого бота</span></h2>
+                <p data-i18n="doc_sec1_p1">
+                    Библиотека <code>vibebots</code> позволяет разрабатывать высокопроизводительных ботов на Python с
+                    поддержкой интерактивных инлайн-кнопок, кастомных цветов и мгновенных ответов.
+                </p>
+
+                <div class="code-container">
+                    <div class="code-container-header">
+                        <div class="code-lang-tag"><span class="dot"></span> Python (bot.py)</div>
+                        <button class="copy-btn" onclick="copyCodeBlock(this)"><i class="fa-regular fa-copy"></i> <span
+                                data-i18n="copy_btn">Копировать</span></button>
+                    </div>
+                    <pre><code class="language-python">from main import Bot
+
+# 1. Инициализируем бота с уникальным токеном
+bot = Bot(token="YOUR_BOT_TOKEN_HERE")
+
+# 2. Регистрируем обработчик команды /start
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.send_message(
+        user_id=message.sender_id,
+        text=f"Привет, {message.sender_info.name}! Добро пожаловать в Vibe."
+    )
+
+# 3. Запускаем опрос обновлений
+if __name__ == '__main__':
+    print("Бот Vibe успешно запущен...")
+    bot.start_polling()</code></pre>
+                </div>
+            </section>
+
+            <!-- SECTION 2: Polling -->
+            <section class="doc-section-block" id="polling">
+                <h2><i class="fa-solid fa-arrows-rotate gradient-text"></i> <span data-i18n="doc_sec2_title">2. Polling
+                        & Обработка обновлений</span></h2>
+                <p data-i18n="doc_sec2_p1">
+                    Метод <code>bot.start_polling()</code> автоматически получает входящие события (сообщения и нажатия
+                    на кнопки) и передает их в соответствующие обработчики.
+                </p>
+
+                <div class="code-container">
+                    <div class="code-container-header">
+                        <div class="code-lang-tag"><span class="dot"></span> Python</div>
+                        <button class="copy-btn" onclick="copyCodeBlock(this)"><i class="fa-regular fa-copy"></i> <span
+                                data-i18n="copy_btn">Копировать</span></button>
+                    </div>
+                    <pre><code class="language-python"># Параметр skip_updates=True пропускает сообщения, отправленные во время оффлайна бота
+bot.start_polling(skip_updates=True)</code></pre>
+                </div>
+            </section>
+
+            <!-- SECTION 3: Message Handlers -->
+            <section class="doc-section-block" id="messages">
+                <h2><i class="fa-solid fa-message gradient-text"></i> <span data-i18n="doc_sec3_title">3. Обработка
+                        сообщений и фильтры</span></h2>
+                <p data-i18n="doc_sec3_p1">
+                    Декоратор <code>@bot.message_handler()</code> позволяет перехватывать входящие сообщения с
+                    использованием различных фильтров.
+                </p>
+
+                <h3 id="commands" data-i18n="doc_sec3_sub1">Фильтрация по командам и тексту</h3>
+                <div class="code-container">
+                    <div class="code-container-header">
+                        <div class="code-lang-tag"><span class="dot"></span> Python</div>
+                        <button class="copy-btn" onclick="copyCodeBlock(this)"><i class="fa-regular fa-copy"></i> <span
+                                data-i18n="copy_btn">Копировать</span></button>
+                    </div>
+                    <pre><code class="language-python"># Обработка списка команд
+@bot.message_handler(commands=['help', 'about', 'info'])
+def handle_info(message):
+    bot.send_message(message.sender_id, "Я официальный бот на платформе Vibe Messenger.")
+
+# Фильтрация по содержимому с помощью lambda
+@bot.message_handler(func=lambda msg: "заказ" in msg.content.lower())
+def handle_order(message):
+    bot.send_message(message.sender_id, "Оформление заказа началось. Напишите ваш город:")</code></pre>
+                </div>
+
+                <h3 id="send-message" data-i18n="doc_sec3_sub2">Отправка действий в чате (Typing Indicator)</h3>
+                <p data-i18n="doc_sec3_p2">Вы можете показать пользователю, что бот печатает ответ, перед длительной
+                    операцией:</p>
+                <div class="code-container">
+                    <div class="code-container-header">
+                        <div class="code-lang-tag"><span class="dot"></span> Python</div>
+                        <button class="copy-btn" onclick="copyCodeBlock(this)"><i class="fa-regular fa-copy"></i> <span
+                                data-i18n="copy_btn">Копировать</span></button>
+                    </div>
+                    <pre><code class="language-python"># Показывает "печатает..." в строке статуса
+bot.send_chat_action(user_id=message.sender_id, action="typing")</code></pre>
+                </div>
+            </section>
+
+            <!-- SECTION 4: Inline Keyboards & Colors -->
+            <section class="doc-section-block" id="keyboards">
+                <h2><i class="fa-solid fa-keyboard gradient-text"></i> <span data-i18n="doc_sec4_title">4.
+                        Инлайн-кнопки, Сетка 5x10 и Кастомные цвета</span></h2>
+                <p data-i18n="doc_sec4_p1">
+                    Vibe Messenger предоставляет богатейшие возможности кастомизации кнопок:
+                </p>
+                <ul>
+                    <li><strong>Сетка:</strong> до <strong>5 кнопок</strong> в одном ряду и до <strong>10 рядов</strong>
+                        суммарно (до 50 кнопок).</li>
+                    <li><strong>Кастомный фон (<code>bg_color</code>):</strong> любой HEX цвет (например,
+                        <code>#6366F1</code>, <code>#EF4444</code>, <code>#10B981</code>).
+                    </li>
+                    <li><strong>Кастомный текст (<code>text_color</code>):</strong> контрастный цвет текста на кнопке.
+                    </li>
+                    <li><strong>Эффект стекла (Glassmorphism):</strong> полупрозрачный градиент, тонкая граница и
+                        зеркальный блик по умолчанию.</li>
+                </ul>
+
+                <div class="code-container">
+                    <div class="code-container-header">
+                        <div class="code-lang-tag"><span class="dot"></span> Python</div>
+                        <button class="copy-btn" onclick="copyCodeBlock(this)"><i class="fa-regular fa-copy"></i> <span
+                                data-i18n="copy_btn">Копировать</span></button>
+                    </div>
+                    <pre><code class="language-python">from main import InlineKeyboardMarkup, InlineKeyboardButton
+
+def create_control_panel():
+    # Создаем клавиатуру с сеткой по 2 кнопки в ряд
+    kb = InlineKeyboardMarkup(row_width=2)
+
+    # 1. Кнопка с фиолетовым фоном
+    btn_start = InlineKeyboardButton(
+        text="🚀 Запустить",
+        callback_data="cmd_start",
+        bg_color="#8B5CF6",
+        text_color="#FFFFFF"
+    )
+
+    # 2. Кнопка с красным фоном (Danger)
+    btn_stop = InlineKeyboardButton(
+        text="🛑 Остановить",
+        callback_data="cmd_stop",
+        bg_color="#EF4444",
+        text_color="#FFFFFF"
+    )
+
+    # 3. Кнопка с изумрудным фоном (Success)
+    btn_status = InlineKeyboardButton(
+        text="📊 Статистика",
+        callback_data="cmd_status",
+        bg_color="#10B981",
+        text_color="#FFFFFF"
+    )
+
+    # 4. URL-кнопка для перехода на документацию
+    btn_link = InlineKeyboardButton(
+        text="🌐 Веб-портал",
+        url="https://example.com"
+    )
+
+    # Добавляем кнопки парами в сетку
+    kb.add(btn_start, btn_stop, btn_status)
+    
+    # Метод .row() добавляет кнопку на всю отдельную строку
+    kb.row(btn_link)
+
+    return kb
+
+@bot.message_handler(commands=['panel'])
+def send_panel(message):
+    bot.send_message(
+        user_id=message.sender_id,
+        text="🎛 Панель управления ботом:",
+        reply_markup=create_control_panel()
+    )</code></pre>
+                </div>
+
+                <h3 id="custom-colors" data-i18n="doc_palette_title">Рекомендуемые HEX палитры для кнопок</h3>
+                <div class="palette-grid">
+                    <div class="palette-card glass-card">
+                        <div class="palette-swatch" style="background: #6366F1;"></div>
+                        <div class="palette-info">
+                            <strong>Indigo Primary</strong>
+                            <code>#6366F1</code>
+                        </div>
+                    </div>
+                    <div class="palette-card glass-card">
+                        <div class="palette-swatch" style="background: #10B981;"></div>
+                        <div class="palette-info">
+                            <strong>Emerald Success</strong>
+                            <code>#10B981</code>
+                        </div>
+                    </div>
+                    <div class="palette-card glass-card">
+                        <div class="palette-swatch" style="background: #EF4444;"></div>
+                        <div class="palette-info">
+                            <strong>Rose Danger</strong>
+                            <code>#EF4444</code>
+                        </div>
+                    </div>
+                    <div class="palette-card glass-card">
+                        <div class="palette-swatch" style="background: #F59E0B;"></div>
+                        <div class="palette-info">
+                            <strong>Amber Warning</strong>
+                            <code>#F59E0B</code>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: Callback Query Handlers -->
+            <section class="doc-section-block" id="callbacks">
+                <h2><i class="fa-solid fa-hand-pointer gradient-text"></i> <span data-i18n="doc_sec5_title">5. Обработка
+                        нажатий и ответы (Callbacks)</span></h2>
+                <p data-i18n="doc_sec5_p1">
+                    Когда пользователь нажимает на инлайн-кнопку, сервер Vibe передает событие
+                    <code>callback_query</code> в ваш бот. Бот может моментально ответить всплывающим тостом или
+                    модальным диалогом через метод <code>call.answer()</code>.
+                </p>
+
+                <h3 id="alerts-toasts" data-i18n="doc_sec5_sub1">Всплывающий тост vs Модальное окно (Alert)</h3>
+                <div class="code-container">
+                    <div class="code-container-header">
+                        <div class="code-lang-tag"><span class="dot"></span> Python</div>
+                        <button class="copy-btn" onclick="copyCodeBlock(this)"><i class="fa-regular fa-copy"></i> <span
+                                data-i18n="copy_btn">Копировать</span></button>
+                    </div>
+                    <pre><code class="language-python">@bot.callback_query_handler()
+def handle_all_clicks(call):
+    print(f"Пользователь {call.sender_id} нажал: {call.data} на сообщении {call.message_id}")
+
+    if call.data == "cmd_start":
+        # 1. Тост внизу экрана (show_alert=False)
+        call.answer("Сервер успешно запущен!", show_alert=False)
+        bot.send_message(call.sender_id, "✅ Процесс запущен в фоновом режиме.")
+
+    elif call.data == "cmd_stop":
+        # 2. Модальный диалог с кнопкой OK (show_alert=True)
+        call.answer(
+            text="⚠️ Внимание! Все несохраненные данные будут сброшены.",
+            show_alert=True
+        )
+
+    elif call.data == "cmd_status":
+        call.answer("Память: 42% | ЦПУ: 12% | Uptime: 99.9%", show_alert=False)</code></pre>
+                </div>
+            </section>
+
+            <!-- SECTION 6: Rate Limiting -->
+            <section class="doc-section-block" id="ratelimiting">
+                <h2><i class="fa-solid fa-shield-halved gradient-text"></i> <span data-i18n="doc_sec6_title">6. Защита
+                        от спама (3 клика в секунду)</span></h2>
+                <p data-i18n="doc_sec6_p1">
+                    На уровне WebSocket шлюза Vibe реализован автоматический Rate Limiter по скользящему окну времени
+                    (Sliding Window): <strong>максимум 3 клика в 1.0 секунду</strong> от одного пользователя.
+                </p>
+                <div class="alert-info glass-card">
+                    <i class="fa-solid fa-shield-check"></i>
+                    <div>
+                        <strong data-i18n="doc_sec6_note_title">Защита инфраструктуры:</strong>
+                        <p data-i18n="doc_sec6_note_desc">Если пользователь попытается спамить кнопку кликером, сервер
+                            автоматически отклонит лишние запросы и покажет предупреждение пользователю, не создавая
+                            нагрузку на ваш процесс бота.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 7: API Reference -->
+            <section class="doc-section-block" id="api-bot">
+                <h2><i class="fa-solid fa-book-bookmark gradient-text"></i> <span data-i18n="doc_sec7_title">7.
+                        Справочник API классов</span></h2>
+
+                <h3>Класс <code>Bot</code></h3>
+                <div class="api-table-wrapper">
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Метод / Свойство</th>
+                                <th>Аргументы</th>
+                                <th>Описание</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Bot(token, api_url=..., timeout=35, retry_attempts=2)</code></td>
+                                <td><code>token: str</code></td>
+                                <td>Конструктор клиента бота. Поддерживает <code>with Bot(...) as bot:</code> и
+                                    <code>bot.close()</code>.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>send_message(...)</code></td>
+                                <td><code>user_id: int, text: str, reply_markup=None, reply_to_id=None</code></td>
+                                <td>Отправка текстового сообщения. Можно прикрепить клавиатуру и указать ответ на
+                                    сообщение.</td>
+                            </tr>
+                            <tr>
+                                <td><code>reply(...)</code></td>
+                                <td><code>message, text, reply_markup=None, quote=False</code></td>
+                                <td>Ответ отправителю входящего сообщения/колбэка.</td>
+                            </tr>
+                            <tr>
+                                <td><code>send_messages(...)</code></td>
+                                <td><code>user_id: int, texts: Iterable[str]</code></td>
+                                <td>Отправка нескольких сообщений подряд.</td>
+                            </tr>
+                            <tr>
+                                <td><code>broadcast(...)</code></td>
+                                <td><code>user_ids: Iterable[int], text: str</code></td>
+                                <td>Массовая рассылка с сохранением результата по каждому получателю.</td>
+                            </tr>
+                            <tr>
+                                <td><code>edit_message(...)</code></td>
+                                <td><code>message_id: int, text: str, reply_markup=None</code></td>
+                                <td>Редактирование текста и/или клавиатуры сообщения бота.</td>
+                            </tr>
+                            <tr>
+                                <td><code>edit_message_reply_markup(...)</code></td>
+                                <td><code>message_id: int, reply_markup</code></td>
+                                <td>Замена только инлайн-клавиатуры сообщения бота.</td>
+                            </tr>
+                            <tr>
+                                <td><code>delete_message(...)</code></td>
+                                <td><code>message_id: int</code></td>
+                                <td>Удаление одного сообщения бота.</td>
+                            </tr>
+                            <tr>
+                                <td><code>delete_messages(...)</code></td>
+                                <td><code>message_ids: Sequence[int]</code></td>
+                                <td>Удаление нескольких сообщений бота за один вызов.</td>
+                            </tr>
+                            <tr>
+                                <td><code>forward_message(...)</code></td>
+                                <td><code>user_id: int, from_message_id: int</code></td>
+                                <td>Пересылка сообщения с пометкой «переслано».</td>
+                            </tr>
+                            <tr>
+                                <td><code>copy_message(...)</code></td>
+                                <td><code>user_id: int, from_message_id: int, reply_markup=None</code></td>
+                                <td>Копирование содержимого сообщения без пометки о пересылке.</td>
+                            </tr>
+                            <tr>
+                                <td><code>set_reaction(...)</code></td>
+                                <td><code>message_id: int, emoji: str</code></td>
+                                <td>Поставить/снять реакцию бота на сообщение (тоггл).</td>
+                            </tr>
+                            <tr>
+                                <td><code>remove_reaction(...)</code></td>
+                                <td><code>message_id: int</code></td>
+                                <td>Убрать реакцию бота с сообщения.</td>
+                            </tr>
+                            <tr>
+                                <td><code>pin_message(...)</code></td>
+                                <td><code>message_id: int, both=True</code></td>
+                                <td>Закрепить сообщение в чате.</td>
+                            </tr>
+                            <tr>
+                                <td><code>unpin_message(...)</code></td>
+                                <td><code>message_id: int, both=True</code></td>
+                                <td>Открепить сообщение.</td>
+                            </tr>
+                            <tr>
+                                <td><code>unpin_all_messages(...)</code></td>
+                                <td><code>user_id: int</code></td>
+                                <td>Открепить все сообщения в чате с пользователем.</td>
+                            </tr>
+                            <tr>
+                                <td><code>send_chat_action(...)</code></td>
+                                <td><code>user_id: int, action: str = "typing"</code></td>
+                                <td>Отправка действия в чате (typing, upload_photo и др.).</td>
+                            </tr>
+                            <tr>
+                                <td><code>send_typing / send_upload_photo / ...</code></td>
+                                <td><code>user_id: int</code></td>
+                                <td>Короткие обёртки над <code>send_chat_action</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>answer_callback_query(...)</code></td>
+                                <td><code>callback_query_id, text=None, show_alert=False</code></td>
+                                <td>Ответ на клик по инлайн-кнопке (тост или алерт).</td>
+                            </tr>
+                            <tr>
+                                <td><code>get_me()</code></td>
+                                <td><code>—</code></td>
+                                <td>Информация о самом боте.</td>
+                            </tr>
+                            <tr>
+                                <td><code>get_user(...)</code></td>
+                                <td><code>user_id: int</code></td>
+                                <td>Публичная информация о пользователе.</td>
+                            </tr>
+                            <tr>
+                                <td><code>get_message(...)</code></td>
+                                <td><code>message_id: int</code></td>
+                                <td>Получить одно сообщение из чата бота.</td>
+                            </tr>
+                            <tr>
+                                <td><code>get_chat_history(...)</code></td>
+                                <td><code>user_id: int, limit=50, offset=0</code></td>
+                                <td>История переписки бота с пользователем.</td>
+                            </tr>
+                            <tr>
+                                <td><code>set_my_name(...)</code></td>
+                                <td><code>name: str</code></td>
+                                <td>Изменить отображаемое имя бота.</td>
+                            </tr>
+                            <tr>
+                                <td><code>set_my_description(...)</code></td>
+                                <td><code>description: str</code></td>
+                                <td>Изменить краткое описание (about) бота.</td>
+                            </tr>
+                            <tr>
+                                <td><code>message_handler(...)</code></td>
+                                <td><code>commands=None, command=None, predicate=None</code></td>
+                                <td>Декоратор регистрации обработчика сообщений.</td>
+                            </tr>
+                            <tr>
+                                <td><code>command(name)</code></td>
+                                <td><code>name: str | Sequence[str]</code></td>
+                                <td>Короткий декоратор команды: <code>@bot.command("start")</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>callback_query_handler(...)</code></td>
+                                <td><code>data=None, data_startswith=None, predicate=None</code></td>
+                                <td>Декоратор регистрации обработчика нажатий.</td>
+                            </tr>
+                            <tr>
+                                <td><code>get_updates(...)</code></td>
+                                <td><code>offset=None, skip_updates=False</code></td>
+                                <td>Разовое получение входящих обновлений.</td>
+                            </tr>
+                            <tr>
+                                <td><code>start_polling(...)</code></td>
+                                <td><code>skip_updates=True, stop_on_conflict=True</code></td>
+                                <td>Запуск цикла получения событий. Один токен — один активный экземпляр.</td>
+                            </tr>
+                            <tr>
+                                <td><code>stop_polling()</code></td>
+                                <td><code>—</code></td>
+                                <td>Корректная остановка цикла polling.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="api-markup">Класс <code>InlineKeyboardMarkup</code></h3>
+                <div class="api-table-wrapper">
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Метод</th>
+                                <th>Аргументы</th>
+                                <th>Описание</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>InlineKeyboardMarkup(...)</code></td>
+                                <td><code>row_width: int = 5</code></td>
+                                <td>Создает разметку клавиатуры (до 5 в ряду, до 10 рядов).</td>
+                            </tr>
+                            <tr>
+                                <td><code>.add(*buttons)</code></td>
+                                <td><code>*buttons: InlineKeyboardButton</code></td>
+                                <td>Добавляет кнопки с автоматическим переносом по <code>row_width</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>.row(*buttons)</code></td>
+                                <td><code>*buttons: InlineKeyboardButton</code></td>
+                                <td>Добавляет переданные кнопки в одну отдельную строку.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="api-button">Класс <code>InlineKeyboardButton</code></h3>
+                <div class="api-table-wrapper">
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Параметр</th>
+                                <th>Тип</th>
+                                <th>Описание</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>text</code></td>
+                                <td><code>str</code></td>
+                                <td>Текст надписи на кнопке (обязательный).</td>
+                            </tr>
+                            <tr>
+                                <td><code>callback_data</code></td>
+                                <td><code>Optional[str]</code></td>
+                                <td>Строка данных, отправляемая боту при нажатии.</td>
+                            </tr>
+                            <tr>
+                                <td><code>url</code></td>
+                                <td><code>Optional[str]</code></td>
+                                <td>HTTPS ссылка для внешнего перехода.</td>
+                            </tr>
+                            <tr>
+                                <td><code>bg_color</code></td>
+                                <td><code>Optional[str]</code></td>
+                                <td>Кастомный цвет фона в формате HEX (например, <code>#6366F1</code>).</td>
+                            </tr>
+                            <tr>
+                                <td><code>text_color</code></td>
+                                <td><code>Optional[str]</code></td>
+                                <td>Кастомный цвет текста в формате HEX (например, <code>#FFFFFF</code>).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="api-callback">Класс <code>CallbackQuery</code></h3>
+                <div class="api-table-wrapper">
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Поле / Метод</th>
+                                <th>Тип</th>
+                                <th>Описание</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>call.data</code></td>
+                                <td><code>str</code></td>
+                                <td>Значение <code>callback_data</code> нажатой кнопки.</td>
+                            </tr>
+                            <tr>
+                                <td><code>call.sender_id</code></td>
+                                <td><code>int</code></td>
+                                <td>ID пользователя, совершившего нажатие.</td>
+                            </tr>
+                            <tr>
+                                <td><code>call.message_id</code></td>
+                                <td><code>int</code></td>
+                                <td>ID сообщения, содержащего кнопку.</td>
+                            </tr>
+                            <tr>
+                                <td><code>call.sender_info</code></td>
+                                <td><code>DotDict</code></td>
+                                <td>Информация об авторе (<code>name</code>, <code>username</code>,
+                                    <code>avatar_url</code>).
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>call.answer(text, show_alert)</code></td>
+                                <td><code>method</code></td>
+                                <td>Удобный метод ответа на данный callback query.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 7.5: New methods & Message class -->
+            <section class="doc-section-block" id="new-methods">
+                <h2><i class="fa-solid fa-wand-magic-sparkles gradient-text"></i> <span data-i18n="doc_new_title">7.5.
+                        Новые методы: редактирование, реакции, закрепления и команды</span></h2>
+                <p data-i18n="doc_new_intro">Начиная с этой версии библиотека умеет не только отправлять сообщения, но и
+                    редактировать их, удалять, пересылать, ставить реакции, закреплять сообщения, читать историю
+                    переписки и удобно роутить команды. Все действия отображаются в мессенджере в реальном времени.</p>
+
+                <h3 id="msg-object">Объект <code>Message</code> и его методы-ярлыки</h3>
+                <p>Каждый обработчик сообщений получает объект <code>Message</code> — это обычный словарь
+                    (<code>message.content</code>, <code>message.sender_id</code> работают как раньше) с удобными
+                    свойствами и методами.</p>
+                <div class="api-table-wrapper">
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Свойство / Метод</th>
+                                <th>Тип</th>
+                                <th>Описание</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>message.text</code></td>
+                                <td><code>str</code></td>
+                                <td>Текст сообщения (алиас <code>content</code>).</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.user_id</code></td>
+                                <td><code>int</code></td>
+                                <td>ID отправителя (алиас <code>sender_id</code>).</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.message_id</code></td>
+                                <td><code>int</code></td>
+                                <td>Реальный ID сообщения (для edit/delete/react).</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.command</code></td>
+                                <td><code>Optional[str]</code></td>
+                                <td>Имя команды без слэша, либо <code>None</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.args</code></td>
+                                <td><code>List[str]</code></td>
+                                <td>Аргументы команды списком.</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.args_text</code></td>
+                                <td><code>str</code></td>
+                                <td>Всё после команды одной строкой.</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.reply(text, quote=False)</code></td>
+                                <td><code>method</code></td>
+                                <td>Ответить отправителю (можно цитатой).</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.edit(text)</code></td>
+                                <td><code>method</code></td>
+                                <td>Отредактировать это сообщение (для сообщений бота).</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.delete()</code></td>
+                                <td><code>method</code></td>
+                                <td>Удалить это сообщение (для сообщений бота).</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.react(emoji)</code></td>
+                                <td><code>method</code></td>
+                                <td>Поставить реакцию на сообщение.</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.pin()</code></td>
+                                <td><code>method</code></td>
+                                <td>Закрепить сообщение.</td>
+                            </tr>
+                            <tr>
+                                <td><code>message.forward_to(user_id)</code></td>
+                                <td><code>method</code></td>
+                                <td>Переслать сообщение пользователю.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="commands-routing">Роутинг команд: <code>@bot.command(...)</code> и <code>command=</code></h3>
+                <p>Регистрируйте команды одним из способов: коротким декоратором <code>@bot.command("start")</code> или
+                    через <code>@bot.message_handler(command=...)</code> / <code>commands=[...]</code>.</p>
+                <div class="code-block-wrapper">
+                    <div class="code-block-header"><span>python</span><button class="copy-btn" onclick="copyCode(this)"
+                            data-i18n="copy_btn">Копировать</button></div>
+                    <pre><code class="language-python">from main import Bot, InlineKeyboardMarkup, InlineKeyboardButton
+
+bot = Bot("YOUR_BOT_TOKEN")
+
+# Короткий декоратор команды
+@bot.command("start")
+def start(message):
+    message.reply(f"Привет, {message.sender_info.name}! Я на связи.")
+
+# Несколько команд сразу + аргументы
+@bot.message_handler(commands=["say", "echo"])
+def say(message):
+    if message.args:
+        message.reply("Вы сказали: " + message.args_text)
+    else:
+        message.reply("Использование: /say текст")
+
+# Обычный текст (без команды)
+@bot.message_handler()
+def fallback(message):
+    message.reply("Не понял команду. Напишите /start")
+
+bot.start_polling()
+</code></pre>
+                </div>
+
+                <h3 id="edit-delete">Редактирование и удаление сообщений</h3>
+                <div class="code-block-wrapper">
+                    <div class="code-block-header"><span>python</span><button class="copy-btn" onclick="copyCode(this)"
+                            data-i18n="copy_btn">Копировать</button></div>
+                    <pre><code class="language-python">@bot.command("counter")
+def counter(message):
+    kb = InlineKeyboardMarkup().row(
+        InlineKeyboardButton("➕", callback_data="inc"),
+    )
+    bot.send_message(message.user_id, "Счётчик: 0", reply_markup=kb)
+
+@bot.callback_query_handler(data="inc")
+def on_inc(call):
+    # Редактируем то самое сообщение, где кнопка
+    call.edit_message("Счётчик обновлён!", reply_markup=InlineKeyboardMarkup().row(
+        InlineKeyboardButton("➕", callback_data="inc")
+    ))
+    call.answer("Готово")
+
+@bot.command("selfdestruct")
+def selfdestruct(message):
+    sent = message.reply("Это сообщение самоуничтожится...")
+    # sent.message_id — реальный ID отправленного сообщения
+    bot.delete_message(sent.message_id)
+</code></pre>
+                </div>
+
+                <h3 id="reactions-pins">Реакции и закрепления</h3>
+                <div class="code-block-wrapper">
+                    <div class="code-block-header"><span>python</span><button class="copy-btn" onclick="copyCode(this)"
+                            data-i18n="copy_btn">Копировать</button></div>
+                    <pre><code class="language-python">@bot.message_handler()
+def like_and_pin(message):
+    # Поставить реакцию на сообщение пользователя
+    message.react("👍")
+    # Отправить и закрепить важное сообщение
+    sent = bot.send_message(message.user_id, "📌 Важное объявление!")
+    bot.pin_message(sent.message_id)
+</code></pre>
+                </div>
+
+                <h3 id="forward-history">Пересылка, копирование и история</h3>
+                <div class="code-block-wrapper">
+                    <div class="code-block-header"><span>python</span><button class="copy-btn" onclick="copyCode(this)"
+                            data-i18n="copy_btn">Копировать</button></div>
+                    <pre><code class="language-python">@bot.command("history")
+def history(message):
+    msgs = bot.get_chat_history(message.user_id, limit=10)
+    bot.send_message(message.user_id, f"Последних сообщений: {len(msgs)}")
+
+@bot.command("whoami")
+def whoami(message):
+    user = bot.get_user(message.user_id)
+    bot.send_message(message.user_id, f"Вы: {user.name} (@{user.username})")
+
+# Переслать / скопировать сообщение другому пользователю
+# bot.forward_message(target_id, from_message_id)
+# bot.copy_message(target_id, from_message_id)
+</code></pre>
+                </div>
+
+                <h3 id="single-instance">Один токен — один экземпляр бота</h3>
+                <p data-i18n="doc_single_instance">По одному токену одновременно может работать только один экземпляр
+                    бота. Если запустить второй, первый автоматически получит <code>ConflictError</code> и корректно
+                    остановится (поведение управляется параметром <code>stop_on_conflict</code> в
+                    <code>start_polling</code>). Отдельные файлы блокировок больше не создаются — синхронизация ведётся
+                    через базу данных.
+                </p>
+                <div class="code-block-wrapper">
+                    <div class="code-block-header"><span>python</span><button class="copy-btn" onclick="copyCode(this)"
+                            data-i18n="copy_btn">Копировать</button></div>
+                    <pre><code class="language-python">from main import Bot, ConflictError
+
+# Через контекстный менеджер сессия закрывается автоматически (без утечек)
+with Bot("YOUR_BOT_TOKEN") as bot:
+    @bot.command("ping")
+    def ping(message):
+        message.reply("pong")
+
+    bot.start_polling(stop_on_conflict=True)
+</code></pre>
+                </div>
+            </section>
+
+            <!-- SECTION 8: Real-World Examples -->
+            <section class="doc-section-block" id="example-store">
+                <h2><i class="fa-solid fa-code gradient-text"></i> <span data-i18n="doc_sec8_title">8. Полные примеры
+                        ботов</span></h2>
+
+                <h3 data-i18n="doc_store_example_title">Пример 1: Бот-Каталог товаров с корзиной</h3>
+                <div class="code-container">
+                    <div class="code-container-header">
+                        <div class="code-lang-tag"><span class="dot"></span> Python (store_bot.py)</div>
+                        <button class="copy-btn" onclick="copyCodeBlock(this)"><i class="fa-regular fa-copy"></i> <span
+                                data-i18n="copy_btn">Копировать</span></button>
+                    </div>
+                    <pre><code class="language-python">from main import Bot, InlineKeyboardMarkup, InlineKeyboardButton
+
+bot = Bot(token="YOUR_TOKEN")
+
+PRODUCTS = {
+    "phone": {"name": "Смартфон Vibe Pro", "price": "49 990 ₽", "color": "#6366F1"},
+    "headphones": {"name": "Наушники GlassSound", "price": "12 490 ₽", "color": "#10B981"},
+    "watch": {"name": "Умные часы V-Watch", "price": "18 990 ₽", "color": "#F59E0B"}
+}
+
+user_carts = {}
+
+def get_store_keyboard():
+    kb = InlineKeyboardMarkup(row_width=1)
+    for code, item in PRODUCTS.items():
+        btn = InlineKeyboardButton(
+            text=f"{item['name']} — {item['price']}",
+            callback_data=f"buy_{code}",
+            bg_color=item["color"],
+            text_color="#FFFFFF"
+        )
+        kb.add(btn)
+    kb.row(InlineKeyboardButton("🛒 Моя корзина", callback_data="view_cart", bg_color="#3B82F6", text_color="#FFF"))
+    return kb
+
+@bot.message_handler(commands=['start', 'store'])
+def open_store(msg):
+    bot.send_message(msg.sender_id, "🏪 Добро пожаловать в фирменный магазин Vibe! Выберите товар:", reply_markup=get_store_keyboard())
+
+@bot.callback_query_handler()
+def handle_store_clicks(call):
+    uid = call.sender_id
+    data = call.data
+
+    if data.startswith("buy_"):
+        code = data.replace("buy_", "")
+        item = PRODUCTS.get(code)
+        if item:
+            user_carts.setdefault(uid, []).append(item['name'])
+            call.answer(f"✅ Добавлено: {item['name']}!", show_alert=False)
+            
+    elif data == "view_cart":
+        cart = user_carts.get(uid, [])
+        if not cart:
+            call.answer("Ваша корзина пуста!", show_alert=True)
+        else:
+            items_str = "\n• " + "\n• ".join(cart)
+            call.answer(f"В корзине {len(cart)} тов.:{items_str}", show_alert=True)
+
+if __name__ == '__main__':
+    bot.start_polling()</code></pre>
+                </div>
+
+                <h3 id="example-quiz" data-i18n="doc_quiz_example_title">Пример 2: Интерактивная Викторина с модальными
+                    алертами</h3>
+                <div class="code-container">
+                    <div class="code-container-header">
+                        <div class="code-lang-tag"><span class="dot"></span> Python (quiz_bot.py)</div>
+                        <button class="copy-btn" onclick="copyCodeBlock(this)"><i class="fa-regular fa-copy"></i> <span
+                                data-i18n="copy_btn">Копировать</span></button>
+                    </div>
+                    <pre><code class="language-python">from main import Bot, InlineKeyboardMarkup, InlineKeyboardButton
+
+bot = Bot(token="YOUR_TOKEN")
+
+@bot.message_handler(commands=['quiz'])
+def ask_question(msg):
+    kb = InlineKeyboardMarkup(row_width=2)
+    kb.add(
+        InlineKeyboardButton("A) WebSocket", callback_data="ans_correct", bg_color="#10B981", text_color="#FFF"),
+        InlineKeyboardButton("B) HTTP Polling", callback_data="ans_wrong", bg_color="#EF4444", text_color="#FFF"),
+        InlineKeyboardButton("C) Почтовый голубь", callback_data="ans_wrong", bg_color="#F59E0B", text_color="#FFF"),
+        InlineKeyboardButton("D) Факс", callback_data="ans_wrong", bg_color="#6B7280", text_color="#FFF")
+    )
+    bot.send_message(msg.sender_id, "❓ Вопрос: Какой протокол обеспечивает мгновенную доставку сообщений в Vibe?", reply_markup=kb)
+
+@bot.callback_query_handler()
+def on_quiz_answer(call):
+    if call.data == "ans_correct":
+        call.answer("🎉 Абсолютно верно! Vibe использует высокоскоростной WebSocket.", show_alert=True)
+    else:
+        call.answer("❌ Неверно! Попробуйте еще раз.", show_alert=False)
+
+if __name__ == '__main__':
+    bot.start_polling()</code></pre>
+                </div>
+            </section>
+
+            <!-- Navigation Pager -->
+            <div class="docs-nav-pager">
+                <a href="index.html" class="pager-card glass-card">
+                    <small data-i18n="pager_prev">Назад</small>
+                    <span data-i18n="pager_home">Главная страница Vibe</span>
+                </a>
+                <a href="#quickstart" class="pager-card glass-card" style="text-align: right;">
+                    <small data-i18n="pager_top">Наверх</small>
+                    <span data-i18n="pager_to_top">К началу документации ↑</span>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts: Prism.js + Docs App -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="docs.js"></script>
+</body>
+
+</html>

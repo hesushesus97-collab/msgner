@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+
+    <!--
+        ПУНКТ 2 — КРУЖКИ.
+        Без CAMERA любой bindToLifecycle() в CircleRecorder падал с SecurityException,
+        поэтому кружок физически невозможно было записать.
+        camera.any объявлена НЕ обязательной: планшеты без фронтальной камеры
+        не должны выпадать из выдачи Google Play из-за видеосообщений.
+    -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
+
+    <!--
+        ПУНКТ 5 — ПЛЕЕР В ШТОРКЕ.
+        MediaSessionService — это foreground-сервис. С API 34 системе недостаточно
+        общего FOREGROUND_SERVICE: нужен именно типизированный
+        FOREGROUND_SERVICE_MEDIA_PLAYBACK, иначе startForeground бросает
+        SecurityException и уведомление плеера не появляется.
+    -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/image"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/image"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Vibe">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Vibe"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".utils.NotificationDismissReceiver"
+            android:exported="false" />
+
+        <service
+            android:name=".service.VibeFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--
+            ПУНКТ 5. Сервис не был объявлен вообще, поэтому
+            MediaController.Builder(...).buildAsync() никогда не находил сессию,
+            сервис не поднимался, и системного уведомления плеера не существовало.
+
+            exported="true" здесь обязателен: к сессии подключается не только наш
+            процесс, но и системные клиенты — Android Auto, Wear, Assistant,
+            панель медиа в шторке.
+        -->
+        <service
+            android:name=".player.VibePlaybackService"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService" />
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+
+        <!-- Отключаем EmojiCompatInitializer, чтобы Compose не подменял Apple-эмодзи гугловскими -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                tools:node="remove" />
+        </provider>
+    </application>
+
+</manifest>

@@ -1,0 +1,52 @@
+<?php
+/** Run ONLY against a disposable database whose name starts with vibe_test_. */
+require_once __DIR__ . '/../VibeSecurity.php';
+$name=getenv('VIBE_TEST_DB');
+if (!$name || !preg_match('/^vibe_test_[A-Za-z0-9_]+$/D',$name)) die("Set VIBE_TEST_DB to a disposable vibe_test_* database.\n");
+$db=new PDO('mysql:host='.(getenv('VIBE_TEST_HOST')?:'127.0.0.1').';dbname='.$name.';charset=utf8mb4',getenv('VIBE_TEST_USER'),getenv('VIBE_TEST_PASSWORD'),[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]);
+function check($condition,$name) { if (!$condition) throw new RuntimeException('FAIL: '.$name); echo "PASS: $name\n"; }
+// Require an EMPTY database so the test can never overwrite existing app records.
+check(count($db->query('SHOW TABLES')->fetchAll())===0,'empty isolated database');
+$db->exec('CREATE TABLE users (id INT PRIMARY KEY,is_banned INT DEFAULT 0,is_freezed INT DEFAULT 0) ENGINE=InnoDB');
+$db->exec('CREATE TABLE messages (id INT PRIMARY KEY,sender_id INT,receiver_id INT,sender_type VARCHAR(16)) ENGINE=InnoDB');
+$db->exec('CREATE TABLE sessions (user_id INT,device_id VARCHAR(255)) ENGINE=InnoDB');
+$db->exec('CREATE TABLE muted_users (user_id INT,muted_id INT,PRIMARY KEY(user_id,muted_id)) ENGINE=InnoDB');
+$sql=file_get_contents(__DIR__.'/../migrations/20260907_security_settings.sql');
+foreach (explode(';',preg_replace('/^--.*$/m','',$sql)) as $statement) if(trim($statement)!=='') $db->exec($statement);
+$db->exec('INSERT INTO users (id) VALUES (101),(102),(103)');
+$sec=new VibeSecurity($db);
+$login=$sec->afterEmail(101,'test-device-one',false); $token=$login['session_token'];
+check($sec->validate($token,101,'test-device-one')!==false,'valid token');
+check($sec->validate($token,102,'test-device-one')===false,'token cannot select another user');
+check($sec->validate($token,101,'other-device')===false,'device binding');
+check($sec->validate('',101)===false,'bare user ID is not authentication');
+$other=$sec->issue(101,'test-device-two');
+$result=$sec->settings(101,['type'=>'set_two_factor','operation'=>'set','password'=>'test-only-secret','hint'=>'test hint'],$token);
+check($result['success'] && $result['enabled'],'enable server-side second factor');
+check($sec->validate($other)===false,'enabling protection revokes other sessions');
+$c=$sec->afterEmail(101,'test-device-three',false);
+check(!isset($c['session_token']) && $c['requires_two_factor'],'email alone yields challenge, not session');
+$ok=$sec->challenge(['challenge_token'=>$c['challenge_token'],'password'=>'test-only-secret']);
+check($ok['success'] && isset($ok['session_token']),'correct second factor issues session');
+check(!$sec->challenge(['challenge_token'=>$c['challenge_token'],'password'=>'test-only-secret'])['success'],'challenge is single-use');
+$c=$sec->afterEmail(101,'test-device-four',false);
+for($i=0;$i<5;$i++) check(!$sec->challenge(['challenge_token'=>$c['challenge_token'],'password'=>'wrong'])['success'],'wrong password '.($i+1));
+check(!$sec->challenge(['challenge_token'=>$c['challenge_token'],'password'=>'test-only-secret'])['success'],'lockout survives a correct guess');
+$c2=$sec->afterEmail(101,'test-device-five',false);
+check(!$sec->challenge(['challenge_token'=>$c2['challenge_token'],'password'=>'test-only-secret'])['success'],'new challenge cannot bypass account lockout');
+$db->exec('UPDATE user_security SET locked_until=DATE_SUB(NOW(),INTERVAL 1 SECOND) WHERE user_id=101');
+check($sec->challenge(['challenge_token'=>$c2['challenge_token'],'password'=>'test-only-secret'])['success'],'login after lockout expiry');
+$sec->notifications(102,['type'=>'set_notification_settings','mute_all'=>false,'auto_mute_new'=>true]);
+$sec->registerContact(102,101);
+check((int)$db->query('SELECT COUNT(*) FROM muted_users WHERE user_id=102 AND muted_id=101')->fetchColumn()===1,'first incoming contact auto-muted');
+$db->exec('DELETE FROM muted_users WHERE user_id=102 AND muted_id=101');
+$sec->registerContact(102,101);
+check((int)$db->query('SELECT COUNT(*) FROM muted_users WHERE user_id=102 AND muted_id=101')->fetchColumn()===0,'manual unmute persists');
+$sec->registerContact(103,101);
+$sec->notifications(103,['type'=>'set_notification_settings','auto_mute_new'=>true]);
+$sec->registerContact(103,101);
+check((int)$db->query('SELECT COUNT(*) FROM muted_users WHERE user_id=103')->fetchColumn()===0,'existing contacts are not retroactively muted');
+$db->exec('DELETE FROM users WHERE id=101');
+check($sec->validate($token)===false,'deleting account invalidates token through FK cascade');
+check((int)$db->query('SELECT COUNT(*) FROM auth_sessions WHERE user_id=101')->fetchColumn()===0,'no orphan sessions');
+echo "Completed. Drop the disposable test database manually.\n";

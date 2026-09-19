@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Messenger — Мессенджер нового поколения & Платформа ботов</title>
+    <meta name="description" content="Vibe — ультрабыстрый, безопасный мессенджер с поддержкой платформы ботов, стеклянным дизайном (Glassmorphism), инлайн-кнопками и приватностью.">
+    
+    <!-- Open Graph / Meta -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Vibe Messenger">
+    <meta property="og:description" content="Ультрабыстрый мессенджер с открытой платформой ботов и инновационным дизайном.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome / Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Prism.js Syntax Highlighting Theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Ambient Glow Effects -->
+    <div class="glow-sphere sphere-1"></div>
+    <div class="glow-sphere sphere-2"></div>
+    <div class="glow-sphere sphere-3"></div>
+
+    <!-- Navigation Bar -->
+    <header class="navbar-wrapper">
+        <nav class="navbar glass-card">
+            <a href="#" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                </div>
+                <span class="logo-text">VIBE</span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="#features" class="nav-item" data-i18n="nav_features">Возможности</a>
+                <a href="#bots" class="nav-item" data-i18n="nav_bots">Боты & SDK</a>
+                <a href="docs.html" class="nav-item" data-i18n="nav_docs">Документация</a>
+                <a href="#security" class="nav-item" data-i18n="nav_security">Безопасность</a>
+                <a href="#faq" class="nav-item" data-i18n="nav_faq">FAQ</a>
+            </div>
+
+            <div class="nav-actions">
+                <!-- Language Switcher -->
+                <div class="lang-switch" id="langSwitchBtn" title="Change language">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="currentLangLabel">RU</span>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="themeToggleBtn" title="Toggle Theme">
+                    <i class="fa-solid fa-moon theme-icon-dark"></i>
+                    <i class="fa-solid fa-sun theme-icon-light"></i>
+                </button>
+
+                <!-- CTA Button -->
+                <a href="#download" class="btn btn-primary btn-sm nav-cta">
+                    <span data-i18n="nav_get_app">Скачать</span>
+                    <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-toggle" id="mobileMenuBtn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero-section" id="hero">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <div class="badge-pill glass-pill">
+                        <span class="pulse-dot"></span>
+                        <span data-i18n="hero_badge">Новое поколение связи & SDK ботов</span>
+                    </div>
+
+                    <h1 class="hero-title">
+                        <span data-i18n="hero_title_1">Общение без границ.</span>
+                        <span class="gradient-text" data-i18n="hero_title_2">Свобода для ботов.</span>
+                    </h1>
+
+                    <p class="hero-subtitle" data-i18n="hero_subtitle">
+                        Ультрабыстрый мессенджер с молниеносной передачей сообщений через WebSocket, современным дизайном Glassmorphism и открытой платформой для создания мощных ботов с кастомизируемыми инлайн-кнопками.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#download" class="btn btn-primary btn-lg">
+                            <i class="fa-brands fa-android"></i>
+                            <div class="btn-text-block">
+                                <small data-i18n="btn_download_sub">Для Android</small>
+                                <strong data-i18n="btn_download_apk">Скачать APK</strong>
+                            </div>
+                        </a>
+                        <a href="docs.html" class="btn btn-glass btn-lg">
+                            <i class="fa-solid fa-code"></i>
+                            <div class="btn-text-block">
+                                <small data-i18n="btn_sdk_sub">Разработчикам</small>
+                                <strong data-i18n="btn_sdk_title">Python SDK</strong>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="hero-stats glass-card">
+                        <div class="stat-item">
+                            <span class="stat-num">&lt; 15 ms</span>
+                            <span class="stat-label" data-i18n="stat_latency">Latency сообщений</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <span class="stat-num">3 клика/сек</span>
+                            <span class="stat-label" data-i18n="stat_rate_limit">Защита от флуда</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <span class="stat-num">Glass UI</span>
+                            <span class="stat-label" data-i18n="stat_design">Стеклянный дизайн</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive App Mockup -->
+                <div class="hero-mockup-wrapper">
+                    <div class="phone-frame glass-card">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="mockup-header">
+                                <div class="mockup-user">
+                                    <div class="mockup-avatar">
+                                        <i class="fa-solid fa-robot"></i>
+                                    </div>
+                                    <div class="mockup-info">
+                                        <div class="mockup-name">
+                                            <span>Vibe Assistant</span>
+                                            <i class="fa-solid fa-circle-check verified-badge"></i>
+                                        </div>
+                                        <div class="mockup-status" data-i18n="mockup_bot_status">бот • в сети</div>
+                                    </div>
+                                </div>
+                                <div class="mockup-actions">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </div>
+                            </div>
+
+                            <div class="mockup-chat-body" id="mockupChatBody">
+                                <div class="chat-date-separator" data-i18n="mockup_today">Сегодня</div>
+
+                                <div class="chat-msg msg-in">
+                                    <div class="msg-bubble">
+                                        <p data-i18n="mockup_bot_msg">Привет! Добро пожаловать в Vibe Messenger. Попробуйте наши новые интерактивные инлайн-кнопки прямо сейчас:</p>
+                                        <span class="msg-time">13:45</span>
+                                    </div>
+                                    <!-- Interactive Demo Keyboard inside Mockup -->
+                                    <div class="mockup-inline-keyboard">
+                                        <div class="kb-row">
+                                            <button class="mockup-btn demo-btn-custom-1" onclick="handleDemoClick('features', '🚀 Vibe Features: Lightning-fast WebSockets, Glassmorphism UI, Music Player & Voice Messages!')">
+                                                <i class="fa-solid fa-sparkles"></i>
+                                                <span data-i18n="mockup_btn_features">Возможности</span>
+                                            </button>
+                                            <button class="mockup-btn demo-btn-custom-2" onclick="handleDemoClick('docs', '📚 Python SDK allows creating rich bots with custom buttons in under 5 minutes!')">
+                                                <i class="fa-solid fa-book-bookmark"></i>
+                                                <span data-i18n="mockup_btn_docs">Документация</span>
+                                            </button>
+                                        </div>
+                                        <div class="kb-row">
+                                            <button class="mockup-btn demo-btn-alert" onclick="handleDemoClickAlert('⚡ Оповещение от бота: Защита от спама 3 нажатия/сек активна!')">
+                                                <i class="fa-solid fa-bell"></i>
+                                                <span data-i18n="mockup_btn_alert">Показать Alert</span>
+                                            </button>
+                                            <a href="https://github.com" target="_blank" class="mockup-btn demo-btn-url">
+                                                <span>GitHub</span>
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="chat-msg msg-out" id="userDemoReply" style="display: none;">
+                                    <div class="msg-bubble">
+                                        <p id="userDemoReplyText">Кнопка нажата!</p>
+                                        <span class="msg-time">13:46 <i class="fa-solid fa-check-double"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Mockup Alert Modal -->
+                            <div class="mockup-alert-overlay" id="mockupAlertOverlay">
+                                <div class="mockup-alert-box glass-card">
+                                    <h4 data-i18n="mockup_alert_title">Сообщение от бота</h4>
+                                    <p id="mockupAlertText">Текст оповещения</p>
+                                    <button class="btn btn-primary btn-sm" onclick="closeMockupAlert()">OK</button>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Toast inside Phone -->
+                            <div class="mockup-toast" id="mockupToast">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span id="mockupToastText">Уведомление</span>
+                            </div>
+
+                            <div class="mockup-input-bar">
+                                <i class="fa-solid fa-paperclip"></i>
+                                <input type="text" placeholder="Сообщение..." readonly>
+                                <i class="fa-solid fa-microphone"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+        <section class="features-section" id="features">
+            <div class="container">
+                <div class="section-header text-center">
+                    <div class="badge-pill glass-pill" data-i18n="feat_pill">Технологии будущего</div>
+                    <h2 class="section-title" data-i18n="feat_title">Почему выбирают Vibe</h2>
+                    <p class="section-subtitle" data-i18n="feat_subtitle">Все, что нужно для комфортного, безопасного и технологичного общения.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card glass-card">
+                        <div class="feature-icon icon-cyan">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 data-i18n="f1_title">WebSocket в реальном времени</h3>
+                        <p data-i18n="f1_desc">Мгновенная доставка сообщений, статусов прочтения и индикаторов набора текста без задержек.</p>
+                    </div>
+
+                    <div class="feature-card glass-card">
+                        <div class="feature-icon icon-purple">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h3 data-i18n="f2_title">Инновационный Glassmorphism</h3>
+                        <p data-i18n="f2_desc">Утонченный стеклянный интерфейс с физикой отклика, плавными градиентами и адаптивной темой.</p>
+                    </div>
+
+                    <div class="feature-card glass-card">
+                        <div class="feature-icon icon-green">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <h3 data-i18n="f3_title">Мощная платформа ботов</h3>
+                        <p data-i18n="f3_desc">Поддержка инлайн-кнопок (до 5 в строке, до 10 строк), кастомных HEX цветов фона и текста, callback-хэндлеров.</p>
+                    </div>
+
+                    <div class="feature-card glass-card">
+                        <div class="feature-icon icon-amber">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 data-i18n="f4_title">Защита от флуда и спама</h3>
+                        <p data-i18n="f4_desc">Встроенный rate limiter на уровне API (3 клика/сек) и гибкие настройки приватности аккаунта.</p>
+                    </div>
+
+                    <div class="feature-card glass-card">
+                        <div class="feature-icon icon-pink">
+                            <i class="fa-solid fa-music"></i>
+                        </div>
+                        <h3 data-i18n="f5_title">Встроенный плеер и аудио</h3>
+                        <p data-i18n="f5_desc">Глобальный мини-плеер, плейлисты чата, прослушивание голосовых и музыкальных треков в фоне.</p>
+                    </div>
+
+                    <div class="feature-card glass-card">
+                        <div class="feature-icon icon-blue">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <h3 data-i18n="f6_title">Оффлайн кэш и Room DB</h3>
+                        <p data-i18n="f6_desc">Локальное хранилище данных и надежная синхронизация истории сообщений при подключении к сети.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTS & SDK OVERVIEW SECTION -->
+        <section class="bots-overview-section" id="bots">
+            <div class="container">
+                <div class="bots-banner glass-card">
+                    <div class="bots-banner-content">
+                        <div class="badge-pill glass-pill" data-i18n="bots_pill">Vibe Bot Platform</div>
+                        <h2 data-i18n="bots_title">Создавайте ботов нового поколения</h2>
+                        <p data-i18n="bots_desc">
+                            Наша Python-библиотека <code>vibebots</code> предоставляет простой и мощный инструментарий для взаимодействия с пользователями: команды, inline-клавиатуры с индивидуальными цветами и моментальная обработка нажатий в реальном времени.
+                        </p>
+                        <div class="bots-banner-actions">
+                            <a href="docs.html" class="btn btn-primary btn-lg">
+                                <i class="fa-solid fa-book-bookmark"></i>
+                                <span data-i18n="bots_btn_docs">Открыть документацию SDK</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bots-code-preview">
+                        <div class="code-header">
+                            <span class="code-dot red"></span>
+                            <span class="code-dot yellow"></span>
+                            <span class="code-dot green"></span>
+                            <span class="code-filename">bot.py</span>
+                        </div>
+                        <pre><code class="language-python">from main import Bot, InlineKeyboardMarkup, InlineKeyboardButton
+
+bot = Bot(token="YOUR_BOT_TOKEN")
+
+@bot.message_handler(commands=['start'])
+def send_welcome(msg):
+    kb = InlineKeyboardMarkup(row_width=2)
+    btn1 = InlineKeyboardButton("🔥 Огонь", callback_data="fire", bg_color="#EF4444")
+    btn2 = InlineKeyboardButton("✨ Магия", callback_data="magic", bg_color="#8B5CF6")
+    kb.add(btn1, btn2)
+    bot.send_message(msg.sender_id, "Привет! Выберите опцию:", reply_markup=kb)
+
+@bot.callback_query_handler()
+def on_click(call):
+    call.answer(f"Вы выбрали: {call.data}", show_alert=True)
+
+bot.start_polling()</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECURITY & PRIVACY SECTION -->
+        <section class="security-section" id="security">
+            <div class="container">
+                <div class="security-card glass-card">
+                    <div class="security-content">
+                        <div class="badge-pill glass-pill" data-i18n="sec_pill">Конфиденциальность на первом месте</div>
+                        <h2 data-i18n="sec_title">Ваши данные принадлежат только вам</h2>
+                        <p data-i18n="sec_desc">
+                            Vibe разработан с учетом строжайших стандартов приватности. Мы не продаем ваши данные третьим лицам, не используем ваши сообщения для обучения рекламы и предоставляем полный контроль над черными списками, сессиями устройств и настройками видимости.
+                        </p>
+                        <div class="legal-links-row">
+                            <button class="btn btn-outline" onclick="openLegalModal('privacy')">
+                                <i class="fa-solid fa-user-shield"></i>
+                                <span data-i18n="btn_privacy_policy">Политика конфиденциальности</span>
+                            </button>
+                            <button class="btn btn-outline" onclick="openLegalModal('terms')">
+                                <i class="fa-solid fa-file-contract"></i>
+                                <span data-i18n="btn_terms">Пользовательское соглашение</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="security-visual">
+                        <div class="shield-orb">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DOWNLOAD CTA SECTION -->
+        <section class="download-section" id="download">
+            <div class="container text-center">
+                <div class="download-box glass-card">
+                    <h2 class="download-title" data-i18n="dl_title">Начните общаться в Vibe прямо сейчас</h2>
+                    <p class="download-subtitle" data-i18n="dl_subtitle">Скачайте приложение для Android или подключитесь через Web-версию.</p>
+                    
+                    <div class="download-buttons">
+                        <a href="#" class="btn btn-primary btn-lg" onclick="triggerDownloadAlert()">
+                            <i class="fa-brands fa-android"></i>
+                            <div class="btn-text-block">
+                                <small data-i18n="dl_direct">Прямая загрузка</small>
+                                <strong>Vibe v1.0.0 APK</strong>
+                            </div>
+                        </a>
+                        <a href="https://github.com" target="_blank" class="btn btn-glass btn-lg">
+                            <i class="fa-brands fa-github"></i>
+                            <div class="btn-text-block">
+                                <small data-i18n="dl_source">Open Source</small>
+                                <strong>GitHub Repo</strong>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section class="faq-section" id="faq">
+            <div class="container">
+                <div class="section-header text-center">
+                    <div class="badge-pill glass-pill" data-i18n="faq_pill">Вопросы и ответы</div>
+                    <h2 class="section-title" data-i18n="faq_title">Часто задаваемые вопросы</h2>
+                </div>
+
+                <div class="faq-accordion">
+                    <div class="faq-item glass-card">
+                        <button class="faq-question">
+                            <span data-i18n="faq_q1">Как создать своего бота в Vibe?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-i18n="faq_a1">Для создания бота зарегистрируйте его через сервисного бота в мессенджере, получите токен и используйте нашу Python-библиотеку `vibebots` для написания логики.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item glass-card">
+                        <button class="faq-question">
+                            <span data-i18n="faq_q2">Сколько инлайн-кнопок можно добавить в сообщение?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-i18n="faq_a2">Вы можете расположить до 5 кнопок в одном ряду и до 10 рядов суммарно (максимум 50 кнопок на одно сообщение). Каждой кнопке можно задать уникальный цвет фона и текста.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item glass-card">
+                        <button class="faq-question">
+                            <span data-i18n="faq_q3">Есть ли ограничение на количество кликов по кнопкам?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-i18n="faq_a3">Да, для защиты ботов от спама и перегрузки на уровне API действует ограничение: максимум 3 нажатия в секунду от одного пользователя.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item glass-card">
+                        <button class="faq-question">
+                            <span data-i18n="faq_q4">Бесплатен ли мессенджер Vibe?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-i18n="faq_a4">Да, Vibe Messenger и платформа ботов полностью бесплатны для всех пользователей и разработчиков.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="nav-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                    <span class="logo-text">VIBE</span>
+                </div>
+                <p data-i18n="footer_slogan">Инновационный мессенджер с открытой платформой ботов.</p>
+                <div class="footer-socials">
+                    <a href="#"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                    <a href="#"><i class="fa-brands fa-discord"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4 data-i18n="footer_nav">Навигация</h4>
+                <a href="#features" data-i18n="nav_features">Возможности</a>
+                <a href="#bots" data-i18n="nav_bots">Боты & SDK</a>
+                <a href="docs.html" data-i18n="nav_docs">Документация</a>
+                <a href="#download" data-i18n="nav_get_app">Скачать</a>
+            </div>
+
+            <div class="footer-col">
+                <h4 data-i18n="footer_legal">Правовая информация</h4>
+                <a href="javascript:void(0)" onclick="openLegalModal('privacy')" data-i18n="btn_privacy_policy">Политика конфиденциальности</a>
+                <a href="javascript:void(0)" onclick="openLegalModal('terms')" data-i18n="btn_terms">Пользовательское соглашение</a>
+                <a href="#security" data-i18n="nav_security">Безопасность</a>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 Vibe Messenger. <span data-i18n="footer_rights">Все права защищены.</span></p>
+        </div>
+    </footer>
+
+    <!-- LEGAL MODAL (PRIVACY POLICY & TERMS OF SERVICE) -->
+    <div class="modal-backdrop" id="legalModal">
+        <div class="modal-dialog glass-card">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <i class="fa-solid fa-shield-halved modal-icon"></i>
+                    <h3 id="modalTitle">Политика конфиденциальности</h3>
+                </div>
+                <button class="modal-close" onclick="closeLegalModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Injected via JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeLegalModal()" data-i18n="modal_close_btn">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

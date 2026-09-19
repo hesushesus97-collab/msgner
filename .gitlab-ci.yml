@@ -1,0 +1,31 @@
+# GitLab Security Scanning configuration
+# Scanners run on every branch push and merge request.
+# Results appear in Security & Compliance -> Vulnerability Report (default branch)
+# and in the MR Security widget (feature branches).
+
+stages:
+  - test
+
+include:
+  # Static analysis for Kotlin, PHP, Python, JavaScript (Semgrep-based)
+  - template: Jobs/SAST.gitlab-ci.yml
+  # Detects leaked API keys, tokens, passwords, keystores in git history
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
+  # Known CVEs in third-party dependencies (Gradle, Composer, pip, npm)
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+
+variables:
+  # Scan the full repository, not only changed files
+  SAST_EXCLUDED_PATHS: "spec, test, tests, tmp, build, .gradle"
+  SECRET_DETECTION_HISTORIC_SCAN: "true"
+  # Dependency Scanning for Gradle works best from a lockfile.
+  # Generate one with:  ./gradlew dependencies --write-locks
+  # and commit the resulting gradle.lockfile files.
+  DS_EXCLUDED_PATHS: "spec, test, tests, tmp, build"
+
+# Do not block the pipeline while scanners are being tuned
+sast:
+  allow_failure: true
+
+secret_detection:
+  allow_failure: true
